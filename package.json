@@ -1,0 +1,54 @@
+{
+	"name": "Smooth Counter",
+	"author": "Flynn Duniho",
+	"version": "1.0.0",
+	"keywords": [
+		"pebble-app"
+	],
+	"private": true,
+	"dependencies": {
+		"@rebble/clay": "^1.0.6"
+	},
+	"pebble": {
+		"displayName": "Smooth Counter",
+		"uuid": "f10b0d10-0b54-43e3-872e-2bddb7756b43",
+		"sdkVersion": "3",
+		"enableMultiJS": true,
+		"targetPlatforms": [
+			"aplite",
+			"basalt",
+			"chalk",
+			"diorite",
+			"emery",
+			"flint"
+		],
+		"watchapp": {
+			"watchface": false
+		},
+		"messageKeys": [
+			"value",
+			"every_value",
+			"offset_value"
+		],
+		"resources": {
+			"media": [
+				{
+					"file": "plus.png",
+					"name": "IMAGE_PLUS",
+					"menuIcon": true,
+					"type": "bitmap"
+				},
+				{
+					"file": "minus.png",
+					"name": "IMAGE_MINUS",
+					"type": "bitmap"
+				},
+				{
+					"file": "reset.png",
+					"name": "IMAGE_RESET",
+					"type": "bitmap"
+				}
+			]
+		}
+	}
+}
