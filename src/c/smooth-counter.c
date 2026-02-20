@@ -1,5 +1,4 @@
 #include <pebble.h>
-#define DEBUG
 
 #define SETTINGS_KEY 0
 #ifdef DEBUG
