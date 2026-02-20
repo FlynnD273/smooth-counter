@@ -1,7 +1,7 @@
 {
 	"name": "Smooth Counter",
 	"author": "Flynn Duniho",
-	"version": "1.0.0",
+	"version": "1.2.0",
 	"keywords": [
 		"pebble-app"
 	],
@@ -20,7 +20,8 @@
 			"chalk",
 			"diorite",
 			"emery",
-			"flint"
+			"flint",
+			"gabbro"
 		],
 		"watchapp": {
 			"watchface": false

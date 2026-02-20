@@ -1,9 +1,16 @@
 #include <pebble.h>
+#define DEBUG
 
 #define SETTINGS_KEY 0
+#ifdef DEBUG
+#define ANIM_DUR 400
+#define RESET_DELAY 1000
+#else
 #define ANIM_DUR 200
+#define RESET_DELAY 500
+#endif
 #define IMG_BUFFER 5
-#define RESET_CIRCLE_OFFSET 10
+#define RESET_CIRCLE_OFFSET 14
 
 typedef struct AppState {
   long value;
@@ -138,7 +145,7 @@ static void next_setup(Animation *animation) {
   anim_progress = 0;
   layer_set_frame(text_layer_get_layer(next_layer),
                   GRect(0, frame.size.h, frame.size.w, 42));
-  snprintf(next_text, sizeof(current_text) - 1, "%ld", state.value + delta);
+  snprintf(next_text, sizeof(current_text), "%ld", state.value + delta);
   text_layer_set_text(next_layer, next_text);
 }
 
@@ -256,7 +263,7 @@ void middle_click(ClickRecognizerRef recognizer, void *context) {
   reset_animation = animation_create();
   animation_set_implementation(reset_animation, &reset_anim);
   animation_set_curve(reset_animation, AnimationCurveEaseInOut);
-  animation_set_duration(reset_animation, 500);
+  animation_set_duration(reset_animation, RESET_DELAY);
   animation_schedule(reset_animation);
 }
 
@@ -279,8 +286,12 @@ void config_provider(Window *window) {
 }
 
 static void init_text_layers(Layer *layer) {
-  current_layer = text_layer_create(GRect(
-      0, get_center(), frame.size.w - IMG_BUFFER * 2 - icon_bounds.size.w, 42));
+#ifdef PBL_ROUND
+  short width = frame.size.w - IMG_BUFFER - icon_bounds.size.w;
+#else
+  short width = frame.size.w - IMG_BUFFER - icon_bounds.size.w;
+#endif
+  current_layer = text_layer_create(GRect(0, get_center(), width, 42));
   layer_add_child(layer, text_layer_get_layer(current_layer));
   text_layer_set_font(current_layer,
                       fonts_get_system_font(FONT_KEY_LECO_42_NUMBERS));
@@ -334,8 +345,8 @@ static void init_menu_layers(Layer *layer) {
 
   reset_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_RESET);
   reset_layer = layer_create(
-      GRect(frame.size.w - IMG_BUFFER * 1.5 - RESET_CIRCLE_OFFSET / 2 -
-                icon_bounds.size.w,
+      GRect(frame.size.w - IMG_BUFFER * 3 / 2 - x_offset / 4 -
+                RESET_CIRCLE_OFFSET / 2 - icon_bounds.size.w,
             (frame.size.h - icon_bounds.size.h - RESET_CIRCLE_OFFSET) / 2,
             icon_bounds.size.w + IMG_BUFFER * 2 + RESET_CIRCLE_OFFSET * 2,
             icon_bounds.size.h + RESET_CIRCLE_OFFSET * 2));
@@ -409,6 +420,9 @@ static void init() {
   app_message_register_inbox_received(inbox_received_handler);
   app_message_open(128, 128);
   save_state();
+#ifdef DEBUG
+  light_enable(true);
+#endif
 }
 
 static void deinit() { window_destroy(s_window); }
