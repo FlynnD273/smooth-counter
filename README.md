@@ -1,3 +1,5 @@
+# ⚠️ This repository has migrated to [Codeberg](https://codeberg.org/FlynnD273/smooth-counter)
+
 # Smooth Counter
 
 <a href="https://apps.rebble.io/en_US/application/69840d77623fe200090616d3">
